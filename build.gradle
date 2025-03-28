@@ -1,0 +1,30 @@
+plugins {
+  id 'scala'
+  id 'org.podval.tools.scalajs' version '0.6.0'
+}
+
+test {
+  filter {
+    includeTestsMatching "org.podval.tools.test.Nesting"
+  }
+}
+
+dependencies {
+  implementation 'org.scala-lang:scala3-library_3:3.6.4'
+
+  // Only ONE ScalaTest dependency must be included;
+  // which one depends on what back-end is used;
+  // see `gradle.properties` for instructions on how to control that.
+
+  // when running on Scala.js (Scala.js enabled):
+  implementation 'org.scalatest:scalatest_sjs1_3:3.2.19'
+
+  // when running on JVM (Scala.js disabled):
+//  implementation 'org.scalatest:scalatest_3:3.2.19'
+}
+
+// when running on JVM (Scala.js disabled), this needs to be commented out:
+node.version = '16.19.1'
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+project.gradle.startParameter.excludedTaskNames.add('compileJava')
